@@ -5,7 +5,8 @@ ENV TZ=America/Sao_Paulo
 
 RUN apt-get update && apt-get install -y \
     xfce4 xfce4-terminal dbus-x11 x11-xserver-utils \
-    xvfb novnc websockify \
+    xvfb tigervnc-standalone-server tigervnc-common \
+    novnc websockify \
     wget curl unzip ca-certificates sudo \
     openjdk-17-jre \
     libxrender1 libxtst6 libxi6 libfreetype6 libfontconfig1 \

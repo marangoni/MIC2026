@@ -12,12 +12,5 @@
     }
   },
   "postStartCommand": "bash .devcontainer/scripts/start-desktop.sh",
-  "customizations": {
-    "vscode": {
-      "settings": {
-        "terminal.integrated.defaultProfile.linux": "bash"
-      }
-    }
-  },
   "remoteUser": "vscode"
 }
