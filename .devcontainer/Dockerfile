@@ -16,6 +16,7 @@ RUN apt-get update && apt-get install -y \
     xterm \
     xfce4-terminal \
     dbus-x11 \
+    xdg-utils \
     libxrender1 \
     libxtst6 \
     libxi6 \
