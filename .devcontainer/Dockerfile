@@ -51,5 +51,5 @@ RUN apt-get update && apt-get install -y \
 
 RUN mkdir -p /opt/installers /opt/microchip /opt/simulide /tmp/mplabx
 
-COPY .devcontainer/scripts/install-mplabx.sh /tmp/install-mplabx.sh
-RUN chmod +x /tmp/install-mplabx.sh && /tmp/install-mplabx.sh
+COPY .devcontainer/scripts/install-mplabx.sh /usr/local/bin/install-mplabx.sh
+RUN chmod +x /usr/local/bin/install-mplabx.sh

@@ -1,22 +1,32 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-cd /tmp/mplabx
+INSTALL_DIR="/opt/microchip/mplabx"
+ASSET_DIR="/workspaces/MIC2026/.devcontainer/assets"
+TMP_DIR="/tmp/mplabx-install"
 
-# MPLAB X IDE 6.30 Linux - download oficial Microchip
-MPLABX_TAR="/MPLABX-v6.20-linux-installer.tar"
-MPLABX_URL="https://ww1.microchip.com/downloads/aemDocuments/documents/DEV/ProductDocuments/SoftwareTools/MPLABX-v6.20-linux-installer.tar"
+mkdir -p "${TMP_DIR}"
+cd "${TMP_DIR}"
 
-wget -O "${MPLABX_TAR}" "${MPLABX_URL}"
+if [ ! -f "${ASSET_DIR}/MPLABX-v6.20-linux-installer.tar" ]; then
+    echo "Instalador não encontrado em ${ASSET_DIR}"
+    echo "Coloque o arquivo MPLABX-v6.20-linux-installer.tar em .devcontainer/assets/"
+    exit 1
+fi
 
-tar -xf "${MPLABX_TAR}"
+cp "${ASSET_DIR}/MPLABX-v6.20-linux-installer.tar" .
 
-INSTALLER="$(find . -maxdepth 1 -type f -name 'MPLABX-v*-linux-installer.sh' | head -n 1)"
+tar -xf MPLABX-v6.20-linux-installer.tar
+
+INSTALLER="$(find . -maxdepth 1 -type f -name 'MPLABX-v6.20-linux-installer.sh' | head -n 1)"
+
+if [ -z "${INSTALLER}" ]; then
+    echo "Instalador .sh não encontrado após extrair o tar."
+    exit 1
+fi
 
 chmod +x "${INSTALLER}"
 
-# Instalação silenciosa
-"${INSTALLER}" --mode unattended --unattendedmodeui none --installdir /opt/microchip/mplabx
+"${INSTALLER}" --mode unattended --unattendedmodeui none --installdir "${INSTALL_DIR}"
 
-# Atalho de conveniência
-ln -sf /opt/microchip/mplabx/bin/mplab_ide /usr/local/bin/mplabx || true
+ln -sf "${INSTALL_DIR}/bin/mplab_ide" /usr/local/bin/mplabx || true
