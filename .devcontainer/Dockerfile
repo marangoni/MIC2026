@@ -14,26 +14,17 @@ RUN apt-get update && apt-get install -y \
     nano \
     vim \
     xterm \
-    xfce4-terminal \
     dbus-x11 \
     xdg-utils \
-    libxrender1 \
-    libxtst6 \
-    libxi6 \
-    libfreetype6 \
-    libfontconfig1 \
-    libxext6 \
-    libx11-6 \
-    libxau6 \
-    libxdmcp6 \
-    libxcb1 \
-    libgtk-3-0 \
-    libnss3 \
-    libasound2 \
-    libglu1-mesa \
-    libgl1-mesa-glx \
-    libegl1 \
-    libpulse0 \
+    mate-desktop-environment-core \
+    mate-terminal \
+    caja \
+    marco \
+    mate-panel \
+    mate-settings-daemon \
+    mate-control-center \
+    pluma \
+    epiphany-browser \
     make \
     gcc \
     g++ \

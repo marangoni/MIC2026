@@ -6,7 +6,6 @@ export HOME=/home/${USER:-vscode}
 
 WALLPAPER="$HOME/.local/share/backgrounds/wallpaper1.png"
 
-# Aguarda o desktop ficar disponível
 for i in {1..30}; do
     if xdpyinfo >/dev/null 2>&1; then
         break
@@ -14,38 +13,23 @@ for i in {1..30}; do
     sleep 1
 done
 
-# Aguarda um pouco mais para o XFCE carregar
 sleep 5
 
-# Mostra ícones na área de trabalho
-xfconf-query -c xfce4-desktop -p /desktop-icons/style -s 2 || true
-xfconf-query -c xfce4-desktop -p /desktop-icons/file-icons/show-home -s true || true
-xfconf-query -c xfce4-desktop -p /desktop-icons/file-icons/show-filesystem -s true || true
-xfconf-query -c xfce4-desktop -p /desktop-icons/file-icons/show-trash -s true || true
-xfconf-query -c xfce4-desktop -p /desktop-icons/file-icons/show-removable -s true || true
+# Sobe componentes do MATE, se ainda não estiverem rodando
+pgrep -x mate-settings-daemon >/dev/null 2>&1 || mate-settings-daemon &
+pgrep -x marco >/dev/null 2>&1 || marco &
+pgrep -x mate-panel >/dev/null 2>&1 || mate-panel &
+pgrep -f "caja.*--force-desktop" >/dev/null 2>&1 || caja --force-desktop &
 
-# Aplica wallpaper, se existir
+sleep 3
+
+# Aplica wallpaper no MATE
 if [ -f "$WALLPAPER" ]; then
-    # tenta primeiro os caminhos já existentes do xfce4-desktop
-    xfconf-query -c xfce4-desktop -l | while read -r prop; do
-        case "$prop" in
-            */last-image|*/image-path)
-                xfconf-query -c xfce4-desktop -p "$prop" -s "$WALLPAPER" || true
-                ;;
-            */image-style)
-                xfconf-query -c xfce4-desktop -p "$prop" -s 5 || true
-                ;;
-        esac
-    done
-
-    # fallback para caminho comum
-    xfconf-query -c xfce4-desktop -p /backdrop/screen0/monitor0/image-path -s "$WALLPAPER" || true
-    xfconf-query -c xfce4-desktop -p /backdrop/screen0/monitor0/image-style -s 5 || true
+    gsettings set org.mate.background picture-filename "$WALLPAPER" || true
+    gsettings set org.mate.background picture-options 'scaled' || true
+    gsettings set org.mate.background draw-background true || true
 fi
 
-# Recarrega desktop
-xfdesktop --reload >/dev/null 2>&1 || true
-
-# Abre um terminal automaticamente, se ainda não houver um
-pgrep -f "xfce4-terminal.*MIC2026 Terminal" >/dev/null 2>&1 || \
-xfce4-terminal --geometry=100x30+80+80 --title="MIC2026 Terminal" &
+# Abre um terminal automaticamente
+pgrep -f "mate-terminal.*MIC2026 Terminal" >/dev/null 2>&1 || \
+mate-terminal --title="MIC2026 Terminal" &
