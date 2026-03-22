@@ -1,33 +1,36 @@
 #!/usr/bin/env bash
-set -e
+set -euo pipefail
 
-export DISPLAY=:1
-export VNC_PORT=5901
-export NOVNC_PORT=6080
+export USER_HOME="/home/vscode"
+export DISPLAY=":1"
+export VNC_PORT="5901"
+export NOVNC_PORT="6080"
 
-mkdir -p /home/vscode/.vnc
+mkdir -p "${USER_HOME}/.vnc"
 
-# Inicia display virtual
-pgrep -f "Xvfb :1" >/dev/null || Xvfb :1 -screen 0 1440x900x24 &
-sleep 2
-
-# Cria xstartup do XFCE para o TigerVNC
-cat > /home/vscode/.vnc/xstartup <<'EOF'
+cat > "${USER_HOME}/.vnc/xstartup" <<'EOF'
 #!/bin/sh
 unset SESSION_MANAGER
 unset DBUS_SESSION_BUS_ADDRESS
-startxfce4 &
+startxfce4
 EOF
 
-chmod +x /home/vscode/.vnc/xstartup
+chmod +x "${USER_HOME}/.vnc/xstartup"
+
+# Remove locks/sockets antigos, se existirem
+rm -f /tmp/.X1-lock
+rm -rf /tmp/.X11-unix/X1
 
 # Mata instâncias antigas, se houver
 vncserver -kill :1 >/dev/null 2>&1 || true
+pkill -f "websockify.*6080" >/dev/null 2>&1 || true
 
-# Inicia TigerVNC no display :1
+# Inicia o TigerVNC
 vncserver :1 -geometry 1440x900 -depth 24 -localhost no
-sleep 2
 
-# Publica via noVNC/websockify
-pgrep -f "websockify.*${NOVNC_PORT}" >/dev/null || \
-  websockify --web=/usr/share/novnc/ ${NOVNC_PORT} localhost:${VNC_PORT} &
+# Inicia o noVNC/websockify
+nohup websockify --web=/usr/share/novnc/ ${NOVNC_PORT} localhost:${VNC_PORT} \
+  > "${USER_HOME}/websockify.log" 2>&1 &
+
+# Escreve no console uma URL localhost para ajudar o Codespaces a detectar a porta
+echo "Desktop remoto disponível em http://localhost:${NOVNC_PORT}"
