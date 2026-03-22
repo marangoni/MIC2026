@@ -1,17 +1,49 @@
 {
-  "name": "MIC2026 AVR Lab",
+  "$schema": "https://raw.githubusercontent.com/devcontainers/spec/main/schemas/devContainer.schema.json",
+  "name": "mic2026_avr_lab",
   "build": {
     "dockerfile": "Dockerfile",
-    "context": "."
+    "context": ".."
   },
-  "forwardPorts": [6080],
+  "forwardPorts": [6080, 5901],
   "portsAttributes": {
     "6080": {
       "label": "Desktop remoto",
-      "protocol": "http",
       "onAutoForward": "openBrowser"
+    },
+    "5901": {
+      "label": "VNC",
+      "onAutoForward": "notify"
     }
   },
-  "postStartCommand": "bash .devcontainer/scripts/start-desktop.sh",
-  "remoteUser": "vscode"
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-vscode.cpptools",
+        "ms-vscode.makefile-tools",
+        "ms-azuretools.vscode-docker",
+        "github.vscode-pull-request-github",
+        "davidanson.vscode-markdownlint"
+      ],
+      "settings": {
+        "terminal.integrated.defaultProfile.linux": "bash"
+      }
+    }
+  },
+  "features": {
+    "ghcr.io/devcontainers/features/common-utils:2": {
+      "installZsh": false,
+      "installOhMyZsh": false,
+      "upgradePackages": true
+    },
+    "ghcr.io/devcontainers/features/desktop-lite:1": {
+      "desktop": "xfce",
+      "useVnc": true,
+      "vncPassword": "aluno_mic2026",
+      "installExtensions": false,
+      "omitDesktopApps": false
+    }
+  },
+  "remoteUser": "vscode",
+  "postCreateCommand": "bash .devcontainer/scripts/post-create.sh"
 }
