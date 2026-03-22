@@ -8,7 +8,8 @@
   "portsAttributes": {
     "6080": {
       "label": "Desktop remoto",
-      "onAutoForward": "openPreview"
+      "protocol": "http",
+      "onAutoForward": "openBrowser"
     }
   },
   "postStartCommand": "bash .devcontainer/scripts/start-desktop.sh",
