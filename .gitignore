@@ -1,0 +1,4 @@
+.devcontainer/assets/MPLABX-v6.20-linux-installer.tar
+.devcontainer/assets/*.tar
+.devcontainer/assets/*.zip
+.devcontainer/assets/*.run
