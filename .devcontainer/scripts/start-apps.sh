@@ -26,7 +26,7 @@ sleep 3
 # Aplica wallpaper no MATE
 if [ -f "$WALLPAPER" ]; then
     gsettings set org.mate.background picture-filename "$WALLPAPER" || true
-    gsettings set org.mate.background picture-options 'scaled' || true
+    gsettings set org.mate.background picture-options 'stretched' || true
     gsettings set org.mate.background draw-background true || true
 fi
 
