@@ -29,6 +29,27 @@ RUN apt-get update && apt-get install -y \
     gcc \
     g++ \
     gdb \
+    libxrender1 \
+    libxtst6 \
+    libxi6 \
+    libfreetype6 \
+    libfontconfig1 \
+    libxext6 \
+    libx11-6 \
+    libxau6 \
+    libxdmcp6 \
+    libxcb1 \
+    libgtk-3-0 \
+    libnss3 \
+    libasound2 \
+    libglu1-mesa \
+    libgl1-mesa-glx \
+    libegl1 \
+    libpulse0 \
+    desktop-file-utils \
     && rm -rf /var/lib/apt/lists/*
 
-RUN mkdir -p /opt/installers /opt/microchip /opt/simulide
+RUN mkdir -p /opt/installers /opt/microchip /opt/simulide /tmp/mplabx
+
+COPY .devcontainer/scripts/install-mplabx.sh /tmp/install-mplabx.sh
+RUN chmod +x /tmp/install-mplabx.sh && /tmp/install-mplabx.sh
