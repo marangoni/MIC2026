@@ -59,15 +59,15 @@ Terminal=false
 Categories=Education;
 EOF
 
-# Atalho: Navegador
+# Atalho: Brave
 cat > "${DESKTOP_DIR}/Navegador.desktop" <<'EOF'
 [Desktop Entry]
 Version=1.0
 Type=Application
-Name=Navegador
-Comment=Abrir navegador
-Exec=epiphany
-Icon=web-browser
+Name=Brave
+Comment=Abrir navegador Brave
+Exec=brave-browser --no-sandbox --disable-gpu
+Icon=brave-browser
 Terminal=false
 Categories=Network;WebBrowser;
 EOF

@@ -24,7 +24,6 @@ RUN apt-get update && apt-get install -y \
     mate-settings-daemon \
     mate-control-center \
     pluma \
-    epiphany-browser \
     make \
     gcc \
     g++ \
@@ -47,7 +46,17 @@ RUN apt-get update && apt-get install -y \
     libegl1 \
     libpulse0 \
     desktop-file-utils \
+    apt-transport-https \
     && rm -rf /var/lib/apt/lists/*
+
+# Repositório oficial do Brave
+RUN curl -fsSLo /usr/share/keyrings/brave-browser-archive-keyring.gpg \
+    https://brave-browser-apt-release.s3.brave.com/brave-browser-archive-keyring.gpg && \
+    echo "deb [signed-by=/usr/share/keyrings/brave-browser-archive-keyring.gpg] https://brave-browser-apt-release.s3.brave.com/ stable main" \
+    > /etc/apt/sources.list.d/brave-browser-release.list && \
+    apt-get update && \
+    apt-get install -y brave-browser && \
+    rm -rf /var/lib/apt/lists/*
 
 RUN mkdir -p /opt/installers /opt/microchip /opt/simulide /tmp/mplabx
 
