@@ -17,18 +17,14 @@ EOF
 
 chmod +x "${USER_HOME}/.vnc/xstartup"
 
-# Remove locks antigos
 rm -f /tmp/.X1-lock
 rm -rf /tmp/.X11-unix/X1
 
-# Encerra processos antigos, se existirem
 tigervncserver -kill :1 >/dev/null 2>&1 || true
 pkill -f "websockify.*6080" >/dev/null 2>&1 || true
 
-# Sobe o TigerVNC sem senha
-tigervncserver :1 -geometry 1440x900 -depth 24 -localhost no -SecurityTypes None
+tigervncserver :1 -geometry 1440x900 -depth 24 -localhost no -SecurityTypes None --I-KNOW-THIS-IS-INSECURE
 
-# Publica via noVNC na porta 6080
 nohup websockify --web=/usr/share/novnc/ ${NOVNC_PORT} localhost:${VNC_PORT} \
   > "${USER_HOME}/websockify.log" 2>&1 &
 
