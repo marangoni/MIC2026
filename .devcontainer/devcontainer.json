@@ -21,9 +21,7 @@
       "extensions": [
         "ms-vscode.cpptools",
         "ms-vscode.makefile-tools",
-        "ms-azuretools.vscode-docker",
-        "github.vscode-pull-request-github",
-        "davidanson.vscode-markdownlint"
+        "ms-azuretools.vscode-docker"
       ],
       "settings": {
         "terminal.integrated.defaultProfile.linux": "bash"

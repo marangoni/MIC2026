@@ -5,10 +5,8 @@ export HOME=/home/${USER:-vscode}
 
 for i in {1..20}; do
     if xdpyinfo >/dev/null 2>&1; then
-        echo "Display grafico disponível."
         break
     fi
-    echo "Aguardando o display gráfico..."
     sleep 1
 done
 

@@ -8,6 +8,11 @@ RUN apt-get update && apt-get install -y \
     wget \
     curl \
     unzip \
+    ca-certificates \
+    sudo \
+    git \
+    nano \
+    vim \
     xterm \
     xfce4-terminal \
     dbus-x11 \
@@ -31,15 +36,7 @@ RUN apt-get update && apt-get install -y \
     make \
     gcc \
     g++ \
-    git \
-    nano \
-    vim \
-    ca-certificates \
-    sudo \
+    gdb \
     && rm -rf /var/lib/apt/lists/*
 
 RUN mkdir -p /opt/installers /opt/microchip /opt/simulide
-
-COPY .devcontainer/assets/ /opt/installers/
-COPY .devcontainer/scripts/post-create.sh /tmp/post-create.sh
-RUN chmod +x /tmp/post-create.sh
